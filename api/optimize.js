@@ -40,8 +40,8 @@ export default async function handler(req, res) {
     }
 
     try {
-        // Destructure the new 'partyDetails' field
-        const { guests, appetizers, mainCourses, sideDishes, desserts, otherItems, partyDetails } = req.body;
+        // Destructure all fields, including the new 'beverages' field
+        const { guests, appetizers, mainCourses, sideDishes, desserts, beverages, otherItems, partyDetails } = req.body;
 
         if (!guests || guests <= 0) {
             return res.status(400).json({ error: 'Invalid number of guests provided. Check that the request body is correctly formatted.' });
@@ -53,6 +53,10 @@ export default async function handler(req, res) {
         if (mainCourses) menuParts.push(`Main Courses: ${mainCourses}`);
         if (sideDishes) menuParts.push(`Side Dishes: ${sideDishes}`);
         if (desserts) menuParts.push(`Desserts: ${desserts}`);
+        
+        // FIX: Ensure the new beverages field is included in the prompt
+        if (beverages) menuParts.push(`Beverages/Drinks: ${beverages}`); 
+        
         if (otherItems) menuParts.push(`Other Items/Notes: ${otherItems}`);
         if (partyDetails) menuParts.push(`***Party Details for context: ${partyDetails}***`);
 
@@ -69,7 +73,7 @@ export default async function handler(req, res) {
 
             For the 'summary' field: Provide a concise, plain text paragraph (no markdown or special characters) that lists the main assumptions made (e.g., duration of the party, average appetite, context from the party details) and any key preparation notes.`;
 
-        // 3. Define the updated JSON schema for structured output
+        // 3. Define the JSON schema for structured output
         const responseSchema = {
             type: "OBJECT",
             properties: {
@@ -81,7 +85,7 @@ export default async function handler(req, res) {
                         properties: {
                             "item": { "type": "STRING", "description": "The specific food or supply item." },
                             "quantity": { "type": "STRING", "description": "The precise amount with units (e.g., 5 lbs, 2 dozen, 80 units)." },
-                            "category": { "type": "STRING", "description": "The category of the item (e.g., Appetizer, Main Course, Shopping Supplies)." }
+                            "category": { "type": "STRING", "description": "The category of the item (e.g., Appetizer, Main Course, Shopping Supplies, Beverages)." }
                         },
                         required: ["item", "quantity", "category"]
                     }
