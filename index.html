@@ -308,7 +308,7 @@ Soda Cans</textarea>
             };
 
             const userQuery = `
-                Generate a final shopping list for the following. Utilize the event notes to make reasonable modifications:
+                Generate a final shopping list for the following. Utilize the event notes to make reasonable modifications. Make sure to separate out ingredients when it makes sense. For example, if user inputs "caesar salad", put separate amounnts for each caesar salad ingredient:
                 - Total Guests: ${numPeople}
                 - Initial Food List (Items only): ${JSON.stringify(foodList)}
                 - Event Notes: "${eventNotes}"
