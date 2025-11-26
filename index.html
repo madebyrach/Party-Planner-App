@@ -178,8 +178,12 @@
 
                     // Server responded, but might be an error (e.g., 400, 500)
                     if (!response.ok) {
-                        const errorData = await response.text(); 
-                        throw new Error(`HTTP Error! Status: ${response.status}. Details: ${errorData}`);
+                        const errorStatus = response.status;
+                        // Attempt to get the server's response text for better diagnostics
+                        const errorText = await response.text(); 
+                        
+                        // Throw a detailed error including the status and server response
+                        throw new Error(`HTTP Error Status ${errorStatus}: ${errorText}`);
                     }
 
                     // Server responded successfully (Status 200), parse the structured JSON
@@ -205,7 +209,18 @@
 
                 } catch (error) {
                     console.error("Fetch or Processing Error:", error);
-                    errorMessageDiv.textContent = `CRITICAL ERROR: Failed to fetch data or process response. Details: ${error.message}`;
+                    // Update error message to show the full error details from the server
+                    errorMessageDiv.innerHTML = `
+                        <h4 class="font-bold mb-2">CRITICAL DEPLOYMENT ERROR: Function Failed</h4>
+                        <p class="mb-1">This is a server-side crash. The most common causes are:</p>
+                        <ol class="list-disc list-inside ml-4">
+                            <li>The <code>GEMINI_API_KEY</code> is missing or incorrect in Vercel Environment Variables.</li>
+                            <li>The serverless function failed to install necessary dependencies.</li>
+                        </ol>
+                        <div class="mt-3 p-3 bg-red-200 text-red-800 rounded-md text-sm font-mono whitespace-pre-wrap">
+                            ${error.message}
+                        </div>
+                    `;
                     errorMessageDiv.classList.remove('hidden');
                     outputSection.classList.remove('hidden'); // Show the section to display the error
                 } finally {
