@@ -75,8 +75,7 @@
     <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
         <header class="text-center mb-10">
             <h1 class="text-4xl font-extrabold text-gray-900 mb-2">Recipe & Party Planner</h1>
-            <p class="text-xl text-gray-500">Let AI optimize your menu and drink needs.</p>
-            <p class="text-sm text-red-600 mt-2 font-semibold">NOTE: This version requires a local server running on http://localhost:3000 to connect to Gemini.</p>
+            <p class="text-xl text-gray-500">Plan your party.</p>
         </header>
 
         <div class="card bg-white rounded-xl overflow-hidden">
@@ -86,7 +85,7 @@
                     Menu Optimizer
                 </button>
                 <button id="tab-drink" class="tab-btn" onclick="showTab('drink')">
-                    Event Drink Estimator
+                    Drink Quantity Estimator
                 </button>
             </div>
 
@@ -142,9 +141,9 @@ Soda Cans</textarea>
 
             <!-- Tab Content: Drink Estimator (NEW AI LOGIC) -->
             <div id="content-drink" class="p-6 hidden">
-                <h2 class="text-2xl font-semibold mb-4 text-blue-700">AI-Powered Drink Estimator</h2>
+                <h2 class="text-2xl font-semibold mb-4 text-blue-700">Drink Estimator</h2>
                 <p class="text-sm text-gray-600 mb-6">
-                    Enter the event details, and the AI will calculate and suggest a tailored drink menu and quantities based on the occasion and duration.
+                    Enter the event details, and we will calculate and suggest a tailored drink menu and quantities based on the occasion and duration.
                 </p>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -356,7 +355,7 @@ Soda Cans</textarea>
                     
                     optimizedIngredients = parsedJson.optimized_ingredients;
                     
-                    notesDisplay.innerHTML = `<p class="font-bold">Optimization Summary:</p><p>${parsedJson.optimization_notes}</p>`;
+                    notesDisplay.innerHTML = `<p class="font-bold">Summary:</p><p>${parsedJson.optimization_notes}</p>`;
                     notesDisplay.classList.remove('hidden');
 
                     renderOptimizedPortions(); 
