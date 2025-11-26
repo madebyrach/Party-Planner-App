@@ -1,0 +1,10 @@
+/node_modules
+/npm-debug.log
+
+# Environment variables
+.env
+.env.local
+
+# Build artifacts
+/dist
+/build
