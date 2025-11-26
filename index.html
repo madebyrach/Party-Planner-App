@@ -29,15 +29,18 @@
         <div class="card bg-white p-6 md:p-10 rounded-xl border border-gray-100 mb-10">
             <form id="optimizerForm">
                 <div class="mb-6">
-                    <label for="guests" class="block text-sm font-medium text-gray-700 mb-1">Number of Guests (Required)</label>
+                    <!-- UI Enhancement 1: Added * for Required Field -->
+                    <label for="guests" class="block text-sm font-medium text-gray-700 mb-1">Number of Guests <span class="text-red-500">*</span></label>
                     <input type="number" id="guests" required min="1" placeholder="e.g., 20" 
-                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150">
+                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150">
+                    <!-- Validation message display -->
+                    <p id="guestError" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number of guests (1 or more).</p>
                 </div>
 
                 <!-- Optional Party Details Input -->
                 <div class="mt-6 mb-6">
                     <label for="partyDetails" class="block text-sm font-medium text-gray-700 mb-1">Party Details (Optional Context)</label>
-                    <textarea id="partyDetails" rows="2" placeholder="e.g., It's a 3-hour cocktail party, most guests are light drinkers, we need eco-friendly plates." class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"></textarea>
+                    <textarea id="partyDetails" rows="2" placeholder="e.g., It's a 3-hour cocktail party, most guests are light drinkers, we need eco-friendly plates." class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"></textarea>
                 </div>
 
                 <!-- Menu Item Inputs (Grouped for readability) -->
@@ -45,20 +48,20 @@
                     <!-- Row 1 -->
                     <div>
                         <label for="appetizers" class="block text-sm font-medium text-gray-700 mb-1">Appetizers (e.g., Mini Quiches, Cheese Board)</label>
-                        <textarea id="appetizers" rows="2" placeholder="List items or styles" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"></textarea>
+                        <textarea id="appetizers" rows="2" placeholder="List items or styles" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"></textarea>
                     </div>
                     <div>
                         <label for="mainCourses" class="block text-sm font-medium text-gray-700 mb-1">Main Courses (e.g., Pulled Pork, Vegetarian Lasagna)</label>
-                        <textarea id="mainCourses" rows="2" placeholder="List items" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"></textarea>
+                        <textarea id="mainCourses" rows="2" placeholder="List items" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"></textarea>
                     </div>
                     <!-- Row 2 -->
                     <div>
                         <label for="sideDishes" class="block text-sm font-medium text-gray-700 mb-1">Side Dishes (e.g., Potato Salad, Green Beans)</label>
-                        <textarea id="sideDishes" rows="2" placeholder="List items" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"></textarea>
+                        <textarea id="sideDishes" rows="2" placeholder="List items" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"></textarea>
                     </div>
                     <div>
                         <label for="desserts" class="block text-sm font-medium text-gray-700 mb-1">Desserts (e.g., Cupcakes, Fruit Platter)</label>
-                        <textarea id="desserts" rows="2" placeholder="List items" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"></textarea>
+                        <textarea id="desserts" rows="2" placeholder="List items" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"></textarea>
                     </div>
                 </div>
 
@@ -66,11 +69,11 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                     <div>
                         <label for="beverages" class="block text-sm font-medium text-gray-700 mb-1">Beverages (e.g., Soda, Beer, Water)</label>
-                        <textarea id="beverages" rows="2" placeholder="List drinks and expected quantities/mixes" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"></textarea>
+                        <textarea id="beverages" rows="2" placeholder="List drinks and expected quantities/mixes" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"></textarea>
                     </div>
                     <div>
                         <label for="otherItems" class="block text-sm font-medium text-gray-700 mb-1">Other Items (e.g., Ice, Paper Plates, Utensils)</label>
-                        <textarea id="otherItems" rows="2" placeholder="List supplies or non-food items" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"></textarea>
+                        <textarea id="otherItems" rows="2" placeholder="List supplies or non-food items" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"></textarea>
                     </div>
                 </div>
 
@@ -115,6 +118,9 @@
             const optimizeButton = document.getElementById('optimizeButton');
             const buttonText = document.getElementById('buttonText');
             const loadingSpinner = document.getElementById('loadingSpinner');
+            const guestsInput = document.getElementById('guests');
+            const guestError = document.getElementById('guestError');
+
 
             const API_URL = '/api/optimize'; 
 
@@ -124,6 +130,18 @@
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
+                // --- Client-Side Validation ---
+                const guestsValue = parseInt(guestsInput.value);
+                if (isNaN(guestsValue) || guestsValue < 1) {
+                    guestError.classList.remove('hidden');
+                    guestsInput.classList.add('border-red-500');
+                    return; // Stop form submission
+                } else {
+                    guestError.classList.add('hidden');
+                    guestsInput.classList.remove('border-red-500');
+                }
+                // --- End Validation ---
+
                 // Reset UI
                 outputSection.classList.add('hidden');
                 errorMessageDiv.classList.add('hidden');
@@ -138,7 +156,7 @@
 
                 // Gather form data, including the new 'beverages' field
                 const formData = {
-                    guests: parseInt(document.getElementById('guests').value),
+                    guests: guestsValue, // Use validated value
                     partyDetails: document.getElementById('partyDetails').value.trim(), 
                     appetizers: document.getElementById('appetizers').value.trim(),
                     mainCourses: document.getElementById('mainCourses').value.trim(),
@@ -223,8 +241,9 @@
                         <table class="min-w-full divide-y divide-gray-200 rounded-lg overflow-hidden">
                             <thead class="bg-indigo-50">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/2">Item</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/2">Quantity Needed</th>
+                                    <!-- Changed column width distribution for better mobile wrapping -->
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-5/12">Item</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-7/12">Quantity Needed</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
@@ -233,7 +252,8 @@
                     groupedData[category].forEach(item => {
                         htmlContent += `
                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${item.item}</td>
+                                <!-- Removed whitespace-nowrap from item column to allow wrapping on mobile -->
+                                <td class="px-6 py-4 text-sm font-medium text-gray-900">${item.item}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 font-bold">${item.quantity}</td>
                             </tr>
                         `;
